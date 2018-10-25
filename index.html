@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<p>Count numbers: <output id="result"></output></p>
+<button onclick="startWorker()">Start Worker</button> 
+<button onclick="startWorker('Hello')">Send Hello</button> 
+<button onclick="startWorker('Que tal?')">Send Que tal</button> 
+<button onclick="startWorker('Bye!')">Send Bye</button> 
+<button onclick="stopWorker()">Stop Worker</button>
+
+
+<h2>Para ver que hace el Worker mira la consola del navegador</h2>
+<script>
+var w;
+w = new Worker("./demo_workers.js");
+
+w.onmessage = function (e) {
+    document.getElementById("result").innerHTML = e.data;
+    console.log("Soy el HTML y me ha llegado esto del Worker: " + e.data);
+}
+
+function startWorker(mssg) {
+    w.postMessage(mssg);
+}
+
+function stopWorker() { 
+    w.terminate();
+    w = new Worker("./demo_workers.js");
+}
+</script>
+
+</body>
+</html>
